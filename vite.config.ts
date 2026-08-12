@@ -1,12 +1,12 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
-// import hostingConfig from "./.openai/hosting.json";
-// import { sites } from "./build/sites-vite-plugin";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
 
-const { d1, r2 } = hostingConfig;
+// 將原本依賴 hostingConfig 的 d1, r2 給予預設安全空值
+const d1 = undefined;
+const r2 = undefined;
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
@@ -49,7 +49,7 @@ export default defineConfig(async () => {
       : undefined,
     plugins: [
       vinext(),
-      sites(),
+      // 拿掉原本的 sites() 避免模組找不到錯誤
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         config: localBindingConfig,
